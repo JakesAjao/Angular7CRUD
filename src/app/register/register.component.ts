@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
-
 import { UserService, AuthenticationService } from '../_services';
 import { User } from '../user'; 
 
@@ -47,7 +46,7 @@ export class RegisterComponent implements OnInit {
 
         this.loading = true;
         const user = this.registerForm.value;  
-        this.CreateUser(user);
+        //this.CreateUser(user);
 
         this.userService.register(this.registerForm.value)
             .pipe(first())
@@ -59,8 +58,18 @@ export class RegisterComponent implements OnInit {
                     this.error = error;
                     this.loading = false;
                 });
-    }
-    CreateUser(user: User) {    
+            this.userService.createUser(this.registerForm.value)
+            .pipe(first())
+            .subscribe(
+                data => {
+                    this.router.navigate(['/login'], { queryParams: { registered: true }});
+                },
+                error => {
+                    this.error = error;
+                    this.loading = false;
+                });      
+       }
+     /*CreateUser(user: User) {    
           this.userService.createUser(user).subscribe(  
             () => {    
                 this.registerForm.controls['firstName'].setValue(user.FirstName);  
@@ -68,7 +77,7 @@ export class RegisterComponent implements OnInit {
                 this.registerForm.controls['username'].setValue(user.Username);  
                 this.registerForm.controls['password'].setValue(user.Password); 
             }  
-          );  
-         
-      }   
+          );
+          this.router.navigate(['/login'], { queryParams: { registered: true }});                    
+      } */  
 }

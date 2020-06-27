@@ -8,6 +8,7 @@ export class UserService {
     url = 'https://localhost:44389/api/Angular7CRUDAPI';
     constructor(private http: HttpClient) { }
 
+   
     getAllUser(): Observable<User[]> {  
         return this.http.get<User[]>(this.url );  
       }  
